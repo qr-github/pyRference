@@ -53,3 +53,4 @@ class referenceApp:
 #TODO ひとつのurlに対する処理はできた，あとは複数渡したときの処理作る(リスト化→map関数)
 #TODO フロントエンド，無料の動的ホスティング検討
 #TODO 出力形(Latexの形に直す)を作成
+#TODO robots.txtへの配慮
