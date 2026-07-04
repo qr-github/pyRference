@@ -36,7 +36,7 @@ class referenceApp:
     def get_siteName(self, u:str):
         parsed = urlparse(u)
         url_path = parsed.path
-        url_for_topPage = u.replace(url_path, "") #pathの部分を削除
+        url_for_topPage = u.replace(url_path, "").strip() #pathの部分を削除
 
         soup = self.get_info(url_for_topPage)
         top_title = soup.find('title').get_text() #トップページの<title> -> サイト名
