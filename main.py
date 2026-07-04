@@ -44,8 +44,7 @@ class referenceApp:
 
     def get_title(self, title:str, siteName:str):
         step_1 = title.removesuffix(f"{siteName}").replace(" ", "")
-        last = step_1[-1] #末尾のハイフンorバーティカルバー
-        step_2 = step_1.replace(last, "")
+        step_2 = step_1.replace(f"{step_1[-1]}", "") #末尾のハイフンorバーティカルバー
         new_title = step_2
         #サンプルのサイトをご紹介 - サンプル.comの" - サンプル.com"を削除
         return new_title
