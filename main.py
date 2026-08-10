@@ -112,6 +112,7 @@ def for_multi_urls(urlList: list[str]) ->list[dict] :
 def select_file_for_urlList() ->list[str]:
     root = tk.Tk()
     root.withdraw()
+    root.attributes("-topmost", True)
 
     file_path = filedialog.askopenfilename(
         title = "URLが記載されたファイルを選択してください",
