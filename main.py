@@ -155,10 +155,18 @@ if __name__ == "__main__":
     if notice:
         print(BAR + notice + BAR)
 
-    print("ファイル選択画面を開きます．．．")
-    urls = select_file_for_urlList()
+    while True:
+        print("ファイル選択画面を開きます．．．")
+        urls = select_file_for_urlList()
 
-    if urls:
+        if not urls:
+            retry = input("ファイルが選択されませんでした．やり直しますか？(y/n): ").strip().lower()
+            if retry == 'y':
+                continue
+            else:
+                print("プログラムを終了します")
+                break
+
         print(f"{len(urls)}件のリンクについて取得中．．．")
         results = for_multi_urls(urls)
 
