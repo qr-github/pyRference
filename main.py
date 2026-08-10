@@ -161,7 +161,7 @@ if __name__ == "__main__":
         urls = select_file_for_urlList()
 
         if not urls:
-            retry = input("ファイルが選択されませんでした．やり直しますか？(y/n): ").strip().lower()
+            retry = input("やり直しますか？(y/n): ").strip().lower()
             if retry == 'y':
                 continue
             else:
