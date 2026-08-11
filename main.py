@@ -89,8 +89,11 @@ class referenceApp:
         return top_title
 
     def get_title(self, title:str, siteName:str):
-        cleaned_title = title.removesuffix(siteName).strip()
-        cleaned_title = cleaned_title.rstrip("-|ー:｜—–：～~ ").strip()
+        if siteName:
+            pattern = rf"(^{re.escape(siteName)}\s*[-|ー:｜—–：～~]+\s*|\s*[-|ー:｜—–：～~]+\s*{re.escape(siteName)}$)"
+            cleaned_title = re.sub(pattern, "", title).strip()
+        else:
+            cleaned_title = title.strip()
         #サンプルのサイトをご紹介 - サンプル.comの" - サンプル.com"を削除
         return cleaned_title
 
