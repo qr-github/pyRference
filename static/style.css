@@ -1,0 +1,30 @@
+html{
+    font-size: 62.5%;
+}
+body{
+    padding: 10rem;
+}
+
+#notice{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 95%;
+    height: 50rem;
+    font-family: "Noto Sans JP" sans-serif;
+    white-space: pre-wrap;
+}
+.hr-gray{
+    width: 100%;
+}
+
+#for_copi_btn{
+    color: #f7f7f7;
+    background-color: gray;
+    font-size: 1.5rem;
+    font-weight: normal; /*boldも検討*/
+    cursor: pointer;
+    padding: 1rem 4rem;
+    text-align: center;
+    transition: ease 0.3s;
+}
