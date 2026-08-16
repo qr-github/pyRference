@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify, render_template
-from main import for_multi_urls, for_output_latex
+from main import for_multi_urls, for_output_latex, load_notice
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    notice = load_notice("notice.txt")
+    return render_template('index.html', notice=notice)
 
 @app.route('/extract', methods=['POST'])
 def extract():
