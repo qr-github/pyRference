@@ -6,9 +6,9 @@ fetch('/extract', {
 })
 .then(res => res.json)
 .then(data => {
-    document.getElementById('output').textContent = data.latex;
+    document.getElementById('output_section').textContent = data.latex;
 })
 .catch(err =>{
     console.error('エラー：', err);
-    document.getElementById('output').textContent = 'Error!! :' + err;
+    document.getElementById('output_section').textContent = 'Error!! :' + err;
 });
