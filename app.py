@@ -15,3 +15,7 @@ def extract():
     results = for_multi_urls(urls)
     latex = for_output_latex(results)
     return jsonify({'results':results, 'latex':latex})
+
+#デバッグ用
+if __name__ == '__main__':
+    app.run(debug=True)
