@@ -9,7 +9,7 @@
         <script src="{{url_for('static', filename='rogic.js')}}" defer></script>
     </head>
     <body>
-        <div id="notice">{{notice}}</div>
+        <div id="notice">{{notice | nl2br}}</div>
         <hr class="hr_gray">
         <div id="urls_form">
             <textarea name="input_form" cols="100" rows="10" placeholder="URLを1行ずつペーストしてください"></textarea>
