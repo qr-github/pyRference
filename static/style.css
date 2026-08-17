@@ -22,13 +22,15 @@ body{
 #for_copy, #for_extract{
     color: #f7f7f7;
     background-color: gray;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: normal; /*boldも検討*/
     cursor: pointer;
     padding: 1rem 4rem;
     margin: 1rem 1rem;
     text-align: center;
     transition: 0.3s ease;
+    width: 2rem;
+    height: auto;
 }
 
 .toast {
