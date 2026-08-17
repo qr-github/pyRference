@@ -21,7 +21,8 @@ body{
 
 #for_copy, #for_extract{
     color: #f7f7f7;
-    background-color: gray;
+    background-color: orangered;
+    border-radius: 100vh;
     font-size: 1rem;
     font-weight: normal; /*boldも検討*/
     cursor: pointer;
