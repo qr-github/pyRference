@@ -26,6 +26,7 @@ body{
     font-weight: normal; /*boldも検討*/
     cursor: pointer;
     padding: 1rem 4rem;
+    margin: 1rem 1rem;
     text-align: center;
     transition: 0.3s ease;
 }
