@@ -29,7 +29,6 @@ body{
     cursor: pointer;
     padding: 0.5rem 0rem;
     margin: 1rem 1rem;
-    text-align: center;
     transition: 0.3s ease;
     width: 15rem;
     height: auto;
@@ -37,6 +36,22 @@ body{
 .wrap_btn{
     display: flex;
     flex-direction: row;
+}
+
+.btn{
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.btn_text{
+    justify-self: center;
+    align-self: center;
+}
+.arrow{
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    align-self: center;
+    justify-self: end;
 }
 
 .toast {
