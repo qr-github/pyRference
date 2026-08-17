@@ -19,7 +19,7 @@ body{
     width: 100%;
 }
 
-#for_copi_btn{
+#for_copy, #for_extract{
     color: #f7f7f7;
     background-color: gray;
     font-size: 1.5rem;
