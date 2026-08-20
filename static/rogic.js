@@ -1,5 +1,5 @@
 function check_urls(url_text){
-    const urls = url_text.value.split('\n').map(urls => urls.trim()).filter(urls => urls.length > 0);
+    const urls = url_text.split('\n').map(urls => urls.trim()).filter(urls => urls.length > 0);
     if(urls.length === 0){
         return false;
     };
@@ -63,9 +63,9 @@ extract_btn.addEventListener('click', async ()=>{
 const copy_btn = document.getElementById('for_copy');
 
 copy_btn.addEventListener('click', ()=>{
-    const textToCopy = input_form.value;
+    const textToCopy = output_section.textContent;
 
-    navigation.clipboard.writeText(textToCopy)
+    navigator.clipboard.writeText(textToCopy)
     .then(()=>{
         toast_text("copied!");
         showToast();
