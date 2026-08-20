@@ -14,6 +14,7 @@ body{
     font-family: "Noto Sans JP" sans-serif;
     font-size: 2rem;
     white-space: pre-wrap;
+    margin: 1rem 1.5rem 1rem 1rem;
 }
 .hr-gray{
     width: 100%;

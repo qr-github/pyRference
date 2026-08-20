@@ -1,21 +1,34 @@
-const urls = textarea.value.split('\n').filter(u => u.trim());
-fetch('/extract', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({urls: urls})
-})
-.then(res => res.json)
-.then(data => {
-    document.getElementById('output_section').textContent = data.latex;
-})
-.catch(err =>{
-    console.error('エラー：', err);
-    document.getElementById('output_section').textContent = 'Error!! :' + err;
-});
+function check_urls(url_text){
+    const urls = url_text.value.split('\n').map(urls => urls.trim()).filter(urls => urls.length > 0);
+    if(urls.length === 0){
+        return false;
+    };
+    return urls;
+}
 
-const copy_btn = document.getElementById('for_copy');
-const input_form = document.querySelector('textarea[name="input_form"]');
+async function fetch_input(urls){
+    const response = await fetch('/extract', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({urls: urls})
+    });
+
+    if (!response.ok){
+        throw new Error(`Error!: ${response.status}`);
+    };
+
+    return await response.json();
+}
+
+function render_result(data){
+    const output_section = document.getElementById('output_section');
+    output_section.textContent = data.latex;
+}
+
 const toast = document.getElementById('toast');
+function toast_text(text){
+    toast.innerText = text;
+}
 
 function showToast(){
     toast.classList.remove('hidden');
@@ -27,11 +40,34 @@ function showToast(){
     }, 2000);
 }
 
+const extract_btn = document.getElementById('for_extract');
+const input_form = document.querySelector('textarea[name="input_form"]');
+
+extract_btn.addEventListener('click', async ()=>{
+    const urls = check_urls(input_form.value);
+
+    if(!urls){
+        toast_text("urlを入力してください");
+        showToast();
+        return;
+    };
+
+    try{
+        const data = await fetch_input(urls);
+        render_result(data);
+    }catch(error){
+        console.error("処理に失敗しました", error)
+    };
+});
+
+const copy_btn = document.getElementById('for_copy');
+
 copy_btn.addEventListener('click', ()=>{
     const textToCopy = input_form.value;
 
     navigation.clipboard.writeText(textToCopy)
     .then(()=>{
+        toast_text("copied!");
         showToast();
     });
 });
