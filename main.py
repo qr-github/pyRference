@@ -8,7 +8,7 @@ from urllib.parse import urlparse, unquote
 from urllib.robotparser import RobotFileParser
 import tkinter as tk
 from tkinter import filedialog
-from datetime import datetim
+from datetime import datetime
 from pypdf import PdfReader
 
 class referenceApp:
