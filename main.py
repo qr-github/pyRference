@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from urllib.parse import urlparse, unquote
 from urllib.robotparser import RobotFileParser
-import tkinter as tk
-from tkinter import filedialog
 from datetime import datetime
 from pypdf import PdfReader
 
@@ -144,6 +142,8 @@ def for_multi_urls(urlList: list[str]) ->list[dict] :
     return result
 
 def select_file_for_urlList() ->list[str]:
+    import tkinter as tk
+    from tkinter import filedialog
     root = tk.Tk()
     root.withdraw()
     root.attributes("-topmost", True)
