@@ -1,13 +1,15 @@
 import requests
 import time
 import re
+import io
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from urllib.robotparser import RobotFileParser
 import tkinter as tk
 from tkinter import filedialog
-from datetime import datetime
+from datetime import datetim
+from pypdf import PdfReader
 
 class referenceApp:
     def __init__(self, url): #イニシャライザ
@@ -28,7 +30,7 @@ class referenceApp:
             return True
         #robots.txt不在時は許可とみなす
 
-    def get_info(self, url):
+    def get_info(self, url:str):
         if not self.is_allowed_robots(url):
             print(f"{url}はrobots.txtによりクロールが拒否されました")
             return None
@@ -38,6 +40,11 @@ class referenceApp:
         try:
             res = requests.get(url, headers=header, timeout=10)
             res.raise_for_status() #エラー時に例外処理へ移す
+
+            content_type = res.headers.get('Content-type', "")
+            if 'application/pdf' in content_type or url.lower().endswith('.pdf'):
+                return res
+
             soup = BeautifulSoup(res.text, 'html.parser')
             return soup
         except requests.RequestException as e:
@@ -45,11 +52,16 @@ class referenceApp:
             return None
 
     def parse_html(self):
-        soup = self.get_info(self.url)
-        if not soup:
-            self.title = ""
+        result = self.get_info(self.url)
+        if not result:
+            self.title = "Unknown Title"
             return
 
+        if isinstance(result, requests.Response):
+            self.perse_pdf(result)
+            return
+
+        soup = result
         meta_siteName = soup.find('meta', property='og:site_name') or soup.find('meta', attrs={'name':'og:site_name'})
         meta_title = soup.find('meta', property='og:title') or soup.find('meta', attrs={'name':'og:title'})
 
@@ -96,6 +108,24 @@ class referenceApp:
             cleaned_title = title.strip()
         #サンプルのサイトをご紹介 - サンプル.comの" - サンプル.com"を削除
         return cleaned_title
+
+    def perse_pdf(self, response):
+        try:
+            with io.BytesIO(response.content) as f:
+                reader = PdfReader(f)
+                metadata = reader.metadata
+                pdf_title = metadata.title if metadata and metadata.title else ""
+            if not pdf_title:
+                parsed_url = urlparse(self.url)
+                pdf_title = unquote(parsed_url.path.split('/')[-1])
+
+            self.title = pdf_title
+            self.site_name = self.get_siteName(self.url)
+
+        except Exception as e:
+            print(f"pdfの解析中にエラーが発生しました: {e}")
+            self.title = "Unknown PDF"
+            self.site_name = self.get_siteName(self.url)
 
 def for_multi_urls(urlList: list[str]) ->list[dict] :
     result = []
