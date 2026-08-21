@@ -100,7 +100,7 @@ class referenceApp:
         else:
             top_title = parsed.netloc
 
-        return top_title
+        return self.cleaned_site_name(top_title)
 
     def get_title(self, title:str, siteName:str):
         cleaned_title = title.strip()
