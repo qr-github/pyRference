@@ -63,6 +63,7 @@ extract_btn.addEventListener('click', async ()=>{
 const copy_btn = document.getElementById('for_copy');
 
 copy_btn.addEventListener('click', ()=>{
+    const output_section = document.getElementById('output_section');
     const textToCopy = output_section.textContent;
 
     navigator.clipboard.writeText(textToCopy)
