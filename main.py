@@ -69,17 +69,21 @@ class referenceApp:
 
             t_title = meta_title.attrs['content']
             #<meta property="og:title" content="サンプルのサイトをご紹介 - サンプル.com">のcontentの中身を取得
-            self.site_name = t_siteName
-            if t_siteName in t_title:
-                self.title = self.get_title(t_title, t_siteName)
-            else:
-                self.title = self.get_title(t_title, "") #サイト名との重複が無い場合の処理
+            self.site_name = self.cleaned_site_name(t_siteName)
+            self.title = self.get_title(t_title, self.site_name)
+
         else:
             title_tag = soup.find('title')
             s = title_tag.get_text() if title_tag else ""
             top_title = self.get_siteName(self.url)
             self.site_name = top_title
             self.title = self.get_title(s, top_title)
+
+    def cleaned_site_name(self, site_name: str) -> str:
+        if not site_name:
+            return ""
+        main_name = re.split(r'\s*[-|ー:｜—–：～~]+\s*', site_name)[0].strip()
+        return main_name
 
     def get_siteName(self, u:str):
         parsed = urlparse(u)
@@ -99,12 +103,17 @@ class referenceApp:
         return top_title
 
     def get_title(self, title:str, siteName:str):
-        if siteName:
-            pattern = rf"(^{re.escape(siteName)}\s*[-|ー:｜—–：～~]+\s*|\s*[-|ー:｜—–：～~]+\s*{re.escape(siteName)}$)"
-            cleaned_title = re.sub(pattern, "", title).strip()
-        else:
-            cleaned_title = title.strip()
-        #サンプルのサイトをご紹介 - サンプル.comの" - サンプル.com"を削除
+        cleaned_title = title.strip()
+        if not siteName:
+            return cleaned_title
+
+        main_name = self.cleaned_site_name(siteName)
+        candidates = list({name for name in [siteName, main_name] if name})
+
+        for name in candidates:
+            pattern = rf"(^{re.escape(name)}\s*[-|ー:｜—–：～~]+\s*|\s*[-|ー:｜—–：～~]+\s*{re.escape(name)}$)"
+            cleaned_title = re.sub(pattern, "", cleaned_title).strip()
+
         return cleaned_title
 
     def perse_pdf(self, response):
