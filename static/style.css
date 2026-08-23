@@ -15,6 +15,7 @@ body{
     font-size: 2rem;
     white-space: pre-wrap;
     margin: 1rem 1.5rem 1rem 1rem;
+    pointer-events: none;
 }
 .hr-gray{
     width: 100%;
@@ -92,4 +93,85 @@ body{
 }
 .toast.show{
     opacity: 1;
+}
+
+
+#wrapper_statue{
+    display: grid;
+}
+.wrap_loading{
+    display: flex;
+}
+#loading_section{
+    align-self: center;
+    padding: 0 0.5rem;
+}
+#loading_section,
+#error_text{
+    grid-area: 1/1;
+}
+.spinner{
+    width: 1.65rem;
+    height: 1.65rem;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0%{transform:  rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+
+#loading_section.hidden{
+    display: none;
+}
+
+#bounding_text{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1.5rem;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1.5rem;
+    align-self: center;
+    pointer-events: none;
+}
+#bounding_text span{
+    display: inline-block;
+    animation: hopping 1.2s infinite;
+}
+
+#bounding_text span:nth-child(1){animation-delay: 0.0s;}/*取*/
+#bounding_text span:nth-child(2){animation-delay: 0.2s;}/*得*/
+#bounding_text span:nth-child(3){animation-delay: 0.4s;}/*中*/
+#bounding_text span:nth-child(4){animation-delay: 0.6s;}/*.*/
+#bounding_text span:nth-child(5){animation-delay: 0.8s;}/*.*/
+#bounding_text span:nth-child(6){animation-delay: 1.0s;}/*.*/
+
+@keyframes hopping {
+    0%, 100%{
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+    }
+    45%{
+        transform: translateY(-9px);
+        animation-timing-function: cubic-bezier(0.15, 0.85, 0.35, 1);
+    }
+    65%{
+        transform: translateY(0);
+    }
+}
+
+#error_text{
+    align-self: center;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(220, 13, 13);
+}
+#error_text.hidden{
+    display: none;
 }

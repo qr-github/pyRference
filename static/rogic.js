@@ -14,7 +14,7 @@ async function fetch_input(urls){
     });
 
     if (!response.ok){
-        throw new Error(`Error!: ${response.status}`);
+        throw new Error("ページの取得に失敗しました。URLが正しいか確認するか、時間をおいて再度お試しください");
     };
 
     return await response.json();
@@ -42,6 +42,8 @@ function showToast(){
 
 const extract_btn = document.getElementById('for_extract');
 const input_form = document.querySelector('textarea[name="input_form"]');
+const loading_section = document.getElementById('loading_section');
+const errorText = document.getElementById('error_text');
 
 extract_btn.addEventListener('click', async ()=>{
     const urls = check_urls(input_form.value);
@@ -52,12 +54,28 @@ extract_btn.addEventListener('click', async ()=>{
         return;
     };
 
+    extract_btn.disabled = true;
+    errorText.classList.add('hidden');
+    loading_section.classList.remove('hidden');
+
     try{
         const data = await fetch_input(urls);
         render_result(data);
+
+        loading_section.classList.add('hidden');
+        toast_text("完了しました！");
+        showToast();
     }catch(error){
         console.error("処理に失敗しました", error)
-    };
+        loading_section.classList.add('hidden');
+        errorText.textContent = error.message || "処理中に不明なエラーが発生しました";
+        errorText.classList.remove('hidden');
+
+        toast_text("error!");
+        showToast();
+    }finally{
+        extract_btn.disabled = false;
+    }
 });
 
 const copy_btn = document.getElementById('for_copy');

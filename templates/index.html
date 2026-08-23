@@ -15,8 +15,19 @@
         <div id="urls_form">
             <textarea name="input_form" cols="100" rows="10" placeholder="URLを1行ずつペーストしてください"></textarea>
         </div>
-        <div id="etract_button" class="wrap_btn">
-            <button id="for_extract" class="btn"><span class="btn_text">取得する</span><span class="arrow">></span></button>
+        <div class="wrap_loading">
+            <div id="etract_button" class="wrap_btn">
+                <button id="for_extract" class="btn"><span class="btn_text">取得する</span><span class="arrow">></span></button>
+            </div>
+            <div id="wrapper_statue">
+                <div id="loading_section" class="hidden"> <!--classはhidden-->
+                    <div class="spinner"></div>
+                    <span id="bounding_text">
+                        <span>取</span>&ensp;<span>得</span>&ensp;<span>中</span>&ensp;<span>.</span>&ensp;<span>.</span>&ensp;<span>.</span>
+                    </span>
+                </div>
+                <div id="error_text" class="hidden">テストメッセージ</div>
+            </div>
         </div>
         <hr class="hr_gray">
         <div id="output_section" class="latex_text"></div>
