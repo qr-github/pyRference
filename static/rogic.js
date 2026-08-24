@@ -28,7 +28,9 @@ const output_section = document.getElementById('output_section');
 function render_result(data){
     textData = data.latex;
 
-    const currentFormat = document.querySelector('input[name="format"]:checked');
+    const currentFormat = document.querySelector('input[name="format"][value="latex"]');
+    if(currentFormat) currentFormat.checked = true;
+
     output_section.textContent = textData[currentFormat] || "";
 }
 
