@@ -31,7 +31,7 @@ function render_result(data){
     const currentFormat = document.querySelector('input[name="format"][value="latex"]');
     if(currentFormat) currentFormat.checked = true;
 
-    output_section.textContent = textData[currentFormat] || "";
+    output_section.textContent = textData.latex || "";
 }
 
 format_input.forEach(input => {
