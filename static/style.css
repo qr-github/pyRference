@@ -175,3 +175,14 @@ body{
 #error_text.hidden{
     display: none;
 }
+
+.format_selector{
+    margin-bottom: 1rem;
+}
+
+.format_selector label {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 1.3rem;
+}
