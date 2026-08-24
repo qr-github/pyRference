@@ -171,11 +171,12 @@ def select_file_for_urlList() ->list[str]:
         urls = [line.strip() for line in f if line.strip()]
     return urls
 
-def for_output_latex(result: list[dict]) ->str:
+def for_output_latex(result: list[dict]) ->dict[str,str]:
     dt = datetime.now()
     current_year = dt.year
 
     latex_item = []
+    ieee_item = []
     for item in result:
         title = item.get("title", "")
         site_name = item.get("site_name", "")
@@ -184,7 +185,13 @@ def for_output_latex(result: list[dict]) ->str:
         line = f"\\item {site_name},「{title}」,\\url{{{url}}}, visited on {current_year}"
         latex_item.append(line)
 
-    return "\n".join(latex_item)
+        ieee_line = f"{site_name},「{title}」,{url}, visited on {current_year}"
+        ieee_item.append(ieee_line)
+
+    return{
+        "latex":"\n".join(latex_item),
+        "ieee":"\n".join(ieee_item)
+    }
 
 def load_notice(file_path: str="notice.txt") ->str:
     try:

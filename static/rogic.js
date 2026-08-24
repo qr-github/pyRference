@@ -20,10 +20,24 @@ async function fetch_input(urls){
     return await response.json();
 }
 
+let latex_data = {latex: "", ieee: ""};
+
+const format_input = document.querySelectorAll('input[name="format"]');
+const output_section = document.getElementById('output_section');
+
 function render_result(data){
-    const output_section = document.getElementById('output_section');
-    output_section.textContent = data.latex;
+    textData = data.latex;
+
+    const currentFormat = document.querySelector('input[name="format"]:checked');
+    output_section.textContent = textData[currentFormat] || "";
 }
+
+format_input.forEach(input => {
+    input.addEventListener('change', (e) => {
+        const select_format = e.target.value;
+        output_section.textContent = textData[select_format] || "";
+    });
+});
 
 const toast = document.getElementById('toast');
 function toast_text(text){
@@ -81,7 +95,6 @@ extract_btn.addEventListener('click', async ()=>{
 const copy_btn = document.getElementById('for_copy');
 
 copy_btn.addEventListener('click', ()=>{
-    const output_section = document.getElementById('output_section');
     const textToCopy = output_section.textContent;
 
     navigator.clipboard.writeText(textToCopy)
