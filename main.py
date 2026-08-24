@@ -138,7 +138,7 @@ def for_multi_urls(urlList: list[str]) ->list[dict] :
     result = []
     for i, url in enumerate(urlList):
         if i > 0:
-            time.sleep(1.0)
+            time.sleep(1.5)
 
         app = referenceApp(url)
         app.parse_html()
