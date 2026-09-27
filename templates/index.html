@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="webページのURLからLaTeX形式の参考文献リストを出力するサイトです">
         <title>Reference-Maker</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <script src="{{url_for('static', filename='rogic.js')}}" defer></script>
@@ -14,6 +15,9 @@
         <hr class="hr_gray">
         <div id="urls_form">
             <textarea name="input_form" cols="100" rows="10" placeholder="URLを1行ずつペーストしてください"></textarea>
+        </div>
+        <div class="pdf_option">
+            <label><input type="checkbox" id="include_pdf_links">ページ内のPDFリンクも取得する</label>
         </div>
         <div class="wrap_loading">
             <div id="etract_button" class="wrap_btn">
@@ -31,7 +35,7 @@
         </div>
         <hr class="hr_gray">
         <div class="format_selector">
-            <label><input type="radio" name="format" value="latex">LaTeX形式</label>
+            <label><input type="radio" name="format" value="latex" checked>LaTeX形式</label>
             <label><input type="radio" name="format" value="ieee">ノーマルテキスト形式</label>
         </div>
         <div id="output_section" class="latex_text"></div>
