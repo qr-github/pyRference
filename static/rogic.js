@@ -6,15 +6,16 @@ function check_urls(url_text){
     return urls;
 }
 
-async function fetch_input(urls){
+async function fetch_input(urls, include_pdf_links){
     const response = await fetch('/extract', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({urls: urls})
+        body: JSON.stringify({urls: urls, include_pdf_links: include_pdf_links})
     });
 
     if (!response.ok){
-        throw new Error("ページの取得に失敗しました。URLが正しいか確認するか、時間をおいて再度お試しください");
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.error || "ページの取得に失敗しました。URLが正しいか確認するか、時間をおいて再度お試しください");
     };
 
     return await response.json();
@@ -26,18 +27,18 @@ const format_input = document.querySelectorAll('input[name="format"]');
 const output_section = document.getElementById('output_section');
 
 function render_result(data){
-    textData = data.latex;
+    latex_data = data.latex || {latex: "", ieee: ""};
 
     const currentFormat = document.querySelector('input[name="format"][value="latex"]');
     if(currentFormat) currentFormat.checked = true;
 
-    output_section.textContent = textData.latex || "";
+    output_section.textContent = latex_data.latex || "";
 }
 
 format_input.forEach(input => {
     input.addEventListener('change', (e) => {
         const select_format = e.target.value;
-        output_section.textContent = textData[select_format] || "";
+        output_section.textContent = latex_data[select_format] || "";
     });
 });
 
@@ -58,6 +59,7 @@ function showToast(){
 
 const extract_btn = document.getElementById('for_extract');
 const input_form = document.querySelector('textarea[name="input_form"]');
+const pdf_link_option = document.getElementById('include_pdf_links');
 const loading_section = document.getElementById('loading_section');
 const errorText = document.getElementById('error_text');
 
@@ -75,7 +77,7 @@ extract_btn.addEventListener('click', async ()=>{
     loading_section.classList.remove('hidden');
 
     try{
-        const data = await fetch_input(urls);
+        const data = await fetch_input(urls, pdf_link_option.checked);
         render_result(data);
 
         loading_section.classList.add('hidden');
@@ -102,6 +104,10 @@ copy_btn.addEventListener('click', ()=>{
     navigator.clipboard.writeText(textToCopy)
     .then(()=>{
         toast_text("copied!");
+        showToast();
+    })
+    .catch(()=>{
+        toast_text("コピーに失敗しました");
         showToast();
     });
 });

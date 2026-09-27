@@ -15,6 +15,9 @@
         <div id="urls_form">
             <textarea name="input_form" cols="100" rows="10" placeholder="URLを1行ずつペーストしてください"></textarea>
         </div>
+        <div class="pdf_option">
+            <label><input type="checkbox" id="include_pdf_links">ページ内のPDFリンクも取得する</label>
+        </div>
         <div class="wrap_loading">
             <div id="etract_button" class="wrap_btn">
                 <button id="for_extract" class="btn"><span class="btn_text">取得する</span><span class="arrow">></span></button>
@@ -31,7 +34,7 @@
         </div>
         <hr class="hr_gray">
         <div class="format_selector">
-            <label><input type="radio" name="format" value="latex">LaTeX形式</label>
+            <label><input type="radio" name="format" value="latex" checked>LaTeX形式</label>
             <label><input type="radio" name="format" value="ieee">ノーマルテキスト形式</label>
         </div>
         <div id="output_section" class="latex_text"></div>
