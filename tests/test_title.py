@@ -97,12 +97,21 @@ class ExtractWebTitleTest(unittest.TestCase):
         self.assertEqual(title, "会社概要")
         self.assertEqual(fetched, ["https://global.fujitsu/ja-JP/"])
 
-    def test_ignores_top_page_redirected_to_other_page(self):
-        soup = make_soup(title="会社概要 | サンプル")
-        (_, site), _ = self.extract(soup, "https://sample.example.com/company/profile/",
-                                    {"https://sample.example.com/": ("Locations | Sample Global", "",
-                                                                     "https://sample.example.com/en/about/locations")})
-        self.assertEqual(site, "sample.example.com")
+    def test_top_page_redirected_to_other_page(self):
+        # トップページが別のページに飛ばされたら，ドメイン名で始まる部分だけをサイト名に使う
+        for top_title, expected in (("Locations | Sample Global", "Sample Global"),
+                                    ("所在地 | 会社案内", "sample.jp")):
+            with self.subTest(top_title=top_title):
+                soup = make_soup(title="会社概要 | サンプル")
+                (_, site), _ = self.extract(soup, "https://sample.jp/company/profile/",
+                                            {"https://sample.jp/": (top_title, "", "https://sample.jp/en/about/locations")})
+                self.assertEqual(site, expected)
+
+    def test_top_page_redirected_to_main_page(self):
+        soup = make_soup(title="Python - Wikipedia", h1="Python")
+        (title, site), _ = self.extract(soup, "https://ja.wikipedia.org/wiki/Python",
+                                        {"https://ja.wikipedia.org/": ("Wikipedia", "", "https://ja.wikipedia.org/wiki/メインページ")})
+        self.assertEqual((title, site), ("Python", "Wikipedia"))
 
     def test_generic_word_is_not_site_name(self):
         soup = make_soup(title="健康・医療｜厚生労働省")

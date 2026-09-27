@@ -540,10 +540,14 @@ def fetch_page_info(url: str) -> tuple[str, str, str]:
 
 
 def fetch_top_page_info(url: str) -> tuple[str, str]:
-    """トップページの(タイトル, 宣言されたサイト名)．リダイレクトで別のページに飛ばされたら使わない"""
+    """トップページの(タイトル, 宣言されたサイト名)．
+    リダイレクトで別のページ(例: 拠点一覧)に飛ばされた場合，タイトルはドメイン名で始まる部分だけを使う"""
     title, site_name, final_url = fetch_page_info(top_page_url(url))
     if not is_top_page(final_url):
-        return "", ""
+        labels = domain_labels(url)
+        segments = [seg for _, seg in split_segments(title)
+                    if any(normalize_for_compare(seg).startswith(label) for label in labels)]
+        title = segments[0] if segments else ""
     return title, site_name
 
 
